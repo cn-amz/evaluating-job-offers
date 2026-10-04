@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
+# Packaging/keyword smoke checks only; this does not exercise agent behavior.
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 for f in SKILL.md README.md LICENSE references/calculation-model.md references/evidence-and-research.md references/input-schema.md examples/china-household-example.md; do
   test -f "$ROOT/$f"

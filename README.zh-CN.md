@@ -30,6 +30,17 @@
 
 ## 核心能力
 
+### 先筛选，再比较
+
+优先服务国内校招技术岗位（含机器人/算法），同时保留其他地域路由：按工作地、税务居民身份、币种和年份核实当地规则。核心仍是**现金与资产、生活成本、时间、成长、家庭**五维，并保留多年个人/家庭合并结余、税前年薪等价和休假时间选择权。
+
+- 先按用户硬约束标记可选、排除或待核实，再做偏好比较。高薪或品牌不能抵消已确认的硬约束违反。
+- 区分意向、转正实习、附条件 offer、正式录用，核实实际书面条件；转正后薪资不计为实习阶段保证收入。
+- 每轮最多追问 1–3 个会改变选择的问题，信息足够时不问，用户要求更少则从其要求。复用已知信息，不把长问卷塞进三个编号，不重复已拒绝的家庭隐私问题。
+- 机器人/算法岗核实真实研发、集成、部署和驻场职责，以及导师时间、设备、数据授权和算力。小公司有好导师也可能更适合成长，不能只按规模排序。
+- 分开入职自然年、完整 12 个月和稳定全年；补贴、报销、已兑现股权、已含值班时间均只计一次。
+- 证据按问题适配，给出有条件建议及反转条件。历史校招薪资不是现价，作者个人结论不是通用事实。
+
 ### 1. 规范化薪酬
 
 将招聘方口径拆分为：
@@ -132,6 +143,8 @@ Skill 会在需要时计算“需要增加多少税前年薪，才能抵消某�
 
 推荐输出结构：
 
+先给简短的有条件建议和硬约束/录用状态筛选，再按需要展开下列内容。短问题可合并栏目，缺失数据标未知，不强制填满表格；末尾追问遵守每轮上限。
+
 1. 证据与假设；
 2. 薪酬标准化表；
 3. 税后现金与资产表；
@@ -145,18 +158,18 @@ Skill 会在需要时计算“需要增加多少税前年薪，才能抵消某�
 
 将整个 `evaluating-job-offers/` 目录复制到支持 Agent Skills 的客户端技能目录即可。
 
-最小安装只需要：
+客户端识别入口是：
 
 ```text
 SKILL.md
 ```
 
-建议同时保留：
+完整工作流应同时保留三个参考文件、示例和许可证：
 
 ```text
 references/
 examples/
-tests/
+LICENSE
 ```
 
 完整目录：
@@ -175,8 +188,17 @@ evaluating-job-offers/
 │   └── china-household-example.md
 └── tests/
     ├── scenarios.md
+    ├── behavioral-cases.json
+    ├── validation-report.md
+    ├── test_structure.py
     └── test_structure.sh
 ```
+
+Codex 可使用内置 skill-installer 的安装脚本，参数为 `--repo cn-amz/evaluating-job-offers --path . --name evaluating-job-offers --ref <已审核提交>`。默认安装目录为 `~/.codex/skills/evaluating-job-offers`，设置 `CODEX_HOME` 时使用其 `skills/` 子目录。先比较同名目录，安装脚本会拒绝覆盖；安装后下一轮可用，无须增加运行依赖。
+
+## 验证方式
+
+运行 `python tests/test_structure.py`；原 `bash tests/test_structure.sh` 继续保留为冒烟检查。两者均为**结构检查，不是行为测试**。旧案例保留在 [tests/scenarios.md](tests/scenarios.md)，新增虚构请求位于 [tests/behavioral-cases.json](tests/behavioral-cases.json)。在独立上下文分别运行无技能、旧技能和新技能回答，不向答题代理提供评分标准，再人工核对原始输出。单次样本不能证明稳定通过率；本轮结果及限制见 [tests/validation-report.md](tests/validation-report.md)。
 
 ## 设计原则
 
@@ -206,5 +228,7 @@ evaluating-job-offers/
 本项目用于辅助分析和决策，不构成税务、法律、投资或劳动关系专业意见。税率、社保、公积金、养老金和其他制度会随地区和年份变化，涉及真实决策时应核对最新官方规则和本人 Offer 条款。
 
 ## License
+
+补充阅读包括阿秀的 offer 选择文章、牛客历史算法校招自述与通用 reverse-interview 提问，链接及适用边界见 [references/evidence-and-research.md](references/evidence-and-research.md)。只引用来源并原创归纳，不复制第三方正文、录用函或个人背景；外部内容保留原权利，不因本项目 MIT 许可而重新授权。新测试均为虚构，不写入用户私事。
 
 MIT License，见 [LICENSE](./LICENSE)。
